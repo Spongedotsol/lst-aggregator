@@ -6,7 +6,7 @@ interface CardProps {
   className?: string
 }
 
-export function Card({ children, className }: CardProps) {
+function Card({ children, className }: CardProps) {
   return (
     <div className={cn("rounded-lg shadow-md p-4", className)}>
       {children}
@@ -19,7 +19,7 @@ interface CardHeaderProps {
   className?: string
 }
 
-export function CardHeader({ children, className }: CardHeaderProps) {
+function CardHeader({ children, className }: CardHeaderProps) {
   return (
     <div className={cn("mb-4", className)}>
       {children}
@@ -32,7 +32,7 @@ interface CardTitleProps {
   className?: string
 }
 
-export function CardTitle({ children, className }: CardTitleProps) {
+function CardTitle({ children, className }: CardTitleProps) {
   return (
     <h2 className={cn("text-xl font-bold", className)}>
       {children}
@@ -45,7 +45,7 @@ interface CardDescriptionProps {
   className?: string
 }
 
-export function CardDescription({ children, className }: CardDescriptionProps) {
+function CardDescription({ children, className }: CardDescriptionProps) {
   return (
     <p className={cn("text-gray-500", className)}>
       {children}
@@ -58,7 +58,7 @@ interface CardContentProps {
   className?: string
 }
 
-export function CardContent({ children, className }: CardContentProps) {
+function CardContent({ children, className }: CardContentProps) {
   return (
     <div className={cn("mb-4", className)}>
       {children}
@@ -71,10 +71,11 @@ interface CardFooterProps {
   className?: string
 }
 
-export function CardFooter({ children, className }: CardFooterProps) {
+function CardFooter({ children, className }: CardFooterProps) {
   return (
     <div className={cn("mt-4", className)}>
       {children}
     </div>
   )
 }
+export { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
