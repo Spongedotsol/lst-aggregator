@@ -14,9 +14,7 @@ import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ArrowRightLeft, Wallet, BarChart3, Twitter } from "lucide-react"
 import JupiterClient from '@/components/jupiter/JupiterClient';
-// import dynamic from "next/dynamic";
 import Image from 'next/image';
-// const JupiterClient = dynamic(() => import('../components/jupiter/JupiterClient'), { ssr: false });
 import Head from "next/head";
 
 import icon from './icon.png';
