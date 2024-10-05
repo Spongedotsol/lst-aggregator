@@ -1,7 +1,7 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
 
-interface TabsProps {
+interface TabsProps extends React.HTMLProps<HTMLDivElement>{
   defaultValue?: string
   children: React.ReactNode
 }
@@ -13,7 +13,7 @@ interface TabsContextProps {
 
 const TabsContext = React.createContext<TabsContextProps | undefined>(undefined)
 
-export function Tabs({ defaultValue, children }: TabsProps) {
+export function Tabs ({ defaultValue, children }: TabsProps) {
   const [activeTab, setActiveTab] = React.useState(defaultValue || "")
 
   return (

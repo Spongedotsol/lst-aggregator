@@ -1,5 +1,5 @@
 import "./globals.css";
-import { WalletContextProvider } from "./WalletContextProvider";
+import { WalletContextProvider } from "@/components/jupiter/WalletContextProvider";
 
 export default function RootLayout({
   children,

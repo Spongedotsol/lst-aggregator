@@ -7,26 +7,35 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { UnifiedWalletButton, UnifiedWalletProvider } from '@jup-ag/wallet-adapter';
 import { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ArrowRightLeft, Wallet, BarChart3, Twitter } from "lucide-react"
-import JupiterClient from './JupiterClient';
+import JupiterClient from '@/components/jupiter/JupiterClient';
+// import dynamic from "next/dynamic";
 import Image from 'next/image';
+// const JupiterClient = dynamic(() => import('../components/jupiter/JupiterClient'), { ssr: false });
 import Head from "next/head";
 
 import icon from './icon.png';
 
-const SpongeBubble = ({ color, size, top, left }) => (
+interface SpongeBubbleProps {
+  color: string;
+  size: string;
+  top: number;
+  left: number;
+}
+
+const SpongeBubble = ({ color, size, top, left }: SpongeBubbleProps) => (
   <div
     className={`absolute rounded-full ${size} ${color} opacity-30 animate-float`}
     style={{ top: `${top}%`, left: `${left}%` }}
   />
 )
 
-export default function DAppInterface() {
+function DAppInterface() {
   const [stakeAmount, setStakeAmount] = useState("")
 
   const walletProps = useWallet();
@@ -63,7 +72,7 @@ export default function DAppInterface() {
     >
       <Head>
         <title>New Title Here</title>
-        <link rel="icon" href="/app/icon.png" />
+        <link rel="icon" href="icon.png" />
       </Head>
       <div className="min-h-screen bg-gradient-to-b from-purple-900 to-blue-900 p-4 relative overflow-hidden flex flex-col">
         {/* Sponge-like background */}
@@ -220,3 +229,4 @@ export default function DAppInterface() {
     </UnifiedWalletProvider>
   )
 }
+export default DAppInterface;
