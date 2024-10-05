@@ -18,6 +18,7 @@ export default function JupiterClient() {
           integratedTargetId: "jupiter-terminal",
           endpoint: endpoint,
           passthroughWalletContextState: wallet,
+          enableWalletPassthrough: true
         });
       } else {
         console.error("Jupiter SDK is not loaded on the window.");
