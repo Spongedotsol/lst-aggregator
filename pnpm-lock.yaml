@@ -32,6 +32,12 @@ dependencies:
   '@solana/web3.js':
     specifier: ^1.95.3
     version: 1.95.3
+  clsx:
+    specifier: ^2.1.1
+    version: 2.1.1
+  lucide-react:
+    specifier: ^0.447.0
+    version: 0.447.0(react@18.3.1)
   next:
     specifier: 14.2.13
     version: 14.2.13(@babel/core@7.25.2)(react-dom@18.3.1)(react@18.3.1)
@@ -41,6 +47,9 @@ dependencies:
   react-dom:
     specifier: ^18
     version: 18.3.1(react@18.3.1)
+  tailwind-merge:
+    specifier: ^2.5.3
+    version: 2.5.3
 
 devDependencies:
   '@types/node':
@@ -10052,6 +10061,14 @@ packages:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0-rc
     dependencies:
       react: 18.2.0
+    dev: false
+
+  /lucide-react@0.447.0(react@18.3.1):
+    resolution: {integrity: sha512-SZ//hQmvi+kDKrNepArVkYK7/jfeZ5uFNEnYmd45RKZcbGD78KLnrcNXmgeg6m+xNHFvTG+CblszXCy4n6DN4w==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0-rc
+    dependencies:
+      react: 18.3.1
     dev: false
 
   /make-dir@2.1.0:

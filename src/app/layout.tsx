@@ -1,6 +1,5 @@
 import "./globals.css";
 import { WalletContextProvider } from "./WalletContextProvider";
-import JupiterClient from "./JupiterClient";
 
 export default function RootLayout({
   children,
@@ -12,7 +11,6 @@ export default function RootLayout({
       <body>
         <WalletContextProvider>
           {children}
-          <JupiterClient /> {/* 加入 Jupiter Terminal */}
         </WalletContextProvider>
       </body>
     </html>
