@@ -3,7 +3,8 @@ import { cn } from "@/lib/utils"
 
 interface TabsProps extends React.HTMLProps<HTMLDivElement>{
   defaultValue?: string
-  children: React.ReactNode
+  children: React.ReactNode,
+  className: string
 }
 
 interface TabsContextProps {
@@ -13,12 +14,12 @@ interface TabsContextProps {
 
 const TabsContext = React.createContext<TabsContextProps | undefined>(undefined)
 
-export function Tabs ({ defaultValue, children }: TabsProps) {
+export function Tabs ({ defaultValue, children, className }: TabsProps) {
   const [activeTab, setActiveTab] = React.useState(defaultValue || "")
 
   return (
     <TabsContext.Provider value={{ activeTab, setActiveTab }}>
-      <div className="tabs">{children}</div>
+      <div className={`tabs ${className}`}>{children}</div>
     </TabsContext.Provider>
   )
 }
