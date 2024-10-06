@@ -1,5 +1,5 @@
 import "./globals.css";
-import { WalletContextProvider } from "@/components/jupiter/WalletContextProvider";
+import { Suspense } from "react";
 
 export default function RootLayout({
   children,
@@ -9,9 +9,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <WalletContextProvider>
+        <Suspense fallback={<div>...Loading</div>}>
           {children}
-        </WalletContextProvider>
+        </Suspense>
       </body>
     </html>
   );
