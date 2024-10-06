@@ -51,7 +51,7 @@ function DAppInterface() {
         endpoint: endpoint,
       });
     }
-  }, [walletProps]);
+  }, [walletProps, endpoint]);
 
   return (
     <UnifiedWalletProvider
@@ -96,15 +96,15 @@ function DAppInterface() {
 
           <Tabs defaultValue="swap" className="w-full">
             <TabsList className="grid w-full grid-cols-3 mb-4">
-              <TabsTrigger value="swap" className="bg-gray-800 bg-opacity-50 text-white data-[state=active]:bg-white data-[state=active]:text-purple-900">
+              <TabsTrigger value="swap" className="flex items-center justify-center bg-gray-800 bg-opacity-50 text-white data-[state=active]:bg-white data-[state=active]:text-purple-900">
                 <ArrowRightLeft className="mr-2 h-4 w-4" />
                 Swap
               </TabsTrigger>
-              <TabsTrigger value="stake" className="bg-gray-800 bg-opacity-50 text-white data-[state=active]:bg-white data-[state=active]:text-purple-900">
+              <TabsTrigger value="stake" className="flex items-center justify-center bg-gray-800 bg-opacity-50 text-white data-[state=active]:bg-white data-[state=active]:text-purple-900">
                 <Wallet className="mr-2 h-4 w-4" />
                 Stake
               </TabsTrigger>
-              <TabsTrigger value="dashboard" className="bg-gray-800 bg-opacity-50 text-white data-[state=active]:bg-white data-[state=active]:text-purple-900">
+              <TabsTrigger value="dashboard" className="flex items-center justify-center bg-gray-800 bg-opacity-50 text-white data-[state=active]:bg-white data-[state=active]:text-purple-900">
                 <BarChart3 className="mr-2 h-4 w-4" />
                 Dashboard
               </TabsTrigger>
@@ -214,17 +214,16 @@ function DAppInterface() {
               </Card>
             </TabsContent>
           </Tabs>
+          {/* Footer */}
+          <footer className="mt-8 bg-gray-800 bg-opacity-50 p-4 rounded-lg text-white z-10">
+            <div className="container mx-auto max-w-4xl flex justify-between items-center">
+              <div>© Sponge 2024</div>
+              <a href="https://x.com/spongedotsol" target="_blank" rel="noopener noreferrer" aria-label="Follow us on X (formerly Twitter)">
+                <Twitter className="h-5 w-5" />
+              </a>
+            </div>
+          </footer>
         </div>
-
-        {/* Footer */}
-        <footer className="mt-8 bg-gray-800 bg-opacity-50 p-4 rounded-lg text-white z-10">
-          <div className="container mx-auto max-w-4xl flex justify-between items-center">
-            <div>© Sponge 2024</div>
-            <a href="https://x.com/spongedotsol" target="_blank" rel="noopener noreferrer" aria-label="Follow us on X (formerly Twitter)">
-              <Twitter className="h-5 w-5" />
-            </a>
-          </div>
-        </footer>
       </div>
     </UnifiedWalletProvider>
   )

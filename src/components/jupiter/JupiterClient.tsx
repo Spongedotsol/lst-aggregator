@@ -30,5 +30,5 @@ export default function JupiterClient() {
     }
   }, [wallet]);
 
-  return <div id="jupiter-terminal" className="w-full h-[600px]" />;
+  return <div id="jupiter-terminal" className="w-full" />;
 }
