@@ -6,18 +6,16 @@ import { PhantomWalletAdapter, SolflareWalletAdapter } from "@solana/wallet-adap
 import { BackpackWalletAdapter } from "@solana/wallet-adapter-backpack";
 import { MagicEdenWalletAdapter } from "@solana/wallet-adapter-magiceden";
 import { UnifiedWalletProvider } from '@jup-ag/wallet-adapter';
-import Image from 'next/image';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import Navbar from "@/components/ui/navbar";
 import Footer from "@/components/ui/footer";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowRightLeft, Wallet, BarChart3, Twitter } from "lucide-react";
+import { ArrowRightLeft, Wallet, BarChart3 } from "lucide-react";
 import JupiterClient from "./jupiter/JupiterClient";
-import icon from './ui/icon.png';
-import { UnifiedWalletButton } from "@jup-ag/wallet-adapter";
 
 interface SpongeBubbleProps {
   color: string;
@@ -69,14 +67,7 @@ function HomePage() {
                 <SpongeBubble color="bg-orange-600" size="w-36 h-36" top={40} left={40} />
             </div>
             <div className="container mx-auto p-4 max-w-4xl relative z-10 flex-grow">
-            {/* Navbar */}
-                <div className="flex items-center justify-between mb-8 bg-gray-800 bg-opacity-50 p-4 rounded-lg">
-                    <div className="flex items-center space-x-2">
-                    <Image src={icon} alt="Sponge Logo" className="w-16 h-16" width={50} height={50} />
-                    <span className="text-white text-xl font-bold">Sponge</span>
-                    </div>
-                    <UnifiedWalletButton />
-                </div>
+                <Navbar />
 
                 <Tabs defaultValue="swap" className="w-full min-h-[100vh]">
                     <TabsList className="grid w-full grid-cols-3 mb-4">
