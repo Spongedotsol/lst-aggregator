@@ -12,6 +12,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import Footer from "@/components/ui/footer";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowRightLeft, Wallet, BarChart3, Twitter } from "lucide-react";
 import JupiterClient from "./jupiter/JupiterClient";
@@ -187,17 +188,8 @@ function HomePage() {
                     </Card>
                     </TabsContent>
                 </Tabs>
-                <footer className="mt-8 bg-gray-800 bg-opacity-50 p-4 rounded-lg text-white z-10">
-                    <div className="container mx-auto max-w-4xl flex justify-between items-center">
-                        <div>© Sponge 2024</div>
-                        <a href="https://x.com/spongedotsol" target="_blank" rel="noopener noreferrer" aria-label="Follow us on X (formerly Twitter)">
-                        <Twitter className="h-5 w-5" />
-                        </a>
-                    </div>
-                </footer>
+                <Footer />
             </div>
-
-            {/* Footer */}
         </div>
     </UnifiedWalletProvider>
   );
