@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "@jup-ag/terminal/css";
 import { PhantomWalletAdapter, SolflareWalletAdapter } from "@solana/wallet-adapter-wallets"; // 加入 Backpack 錢包
+import { Connection, PublicKey, LAMPORTS_PER_SOL } from '@solana/web3.js';
+
 import { BackpackWalletAdapter } from "@solana/wallet-adapter-backpack";
 import { MagicEdenWalletAdapter } from "@solana/wallet-adapter-magiceden";
-import { UnifiedWalletProvider } from '@jup-ag/wallet-adapter';
+import { UnifiedWalletProvider, useWallet } from '@jup-ag/wallet-adapter';
 import Image from 'next/image';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/Card";
@@ -17,6 +19,8 @@ import { ArrowRightLeft, Wallet, BarChart3, Twitter } from "lucide-react";
 import JupiterClient from "./jupiter/JupiterClient";
 import icon from './ui/icon.png';
 import { UnifiedWalletButton } from "@jup-ag/wallet-adapter";
+import useSnackbarStore from "@/state/useSnackbarStore";
+import SimpleSnackbar from './ui/toast';
 
 interface SpongeBubbleProps {
   color: string;
@@ -33,7 +37,6 @@ const SpongeBubble = ({ color, size, top, left }: SpongeBubbleProps) => (
 );
 
 function HomePage() {
-  const [stakeAmount, setStakeAmount] = useState("");
 
   return (
     <UnifiedWalletProvider
@@ -45,7 +48,7 @@ function HomePage() {
         ]}
         config={{
             autoConnect: true,
-            env: 'mainnet-beta',
+            env: 'devnet',
             metadata: {
             name: 'UnifiedWallet',
             description: 'UnifiedWallet',
@@ -58,6 +61,21 @@ function HomePage() {
             theme: "dark"
         }}
     >
+        <HomeApp/>
+    </UnifiedWalletProvider>
+  );
+}
+
+const HomeApp = () => {
+    const [stakeAmount, setStakeAmount] = useState("");
+    const { showSnackbar } = useSnackbarStore();
+
+    const wallet = useWallet();
+    useEffect(() => {
+        console.log(wallet);
+    }, [wallet]);
+
+    return (
         <div className="min-h-screen bg-gradient-to-b from-purple-900 to-blue-900 p-4 relative overflow-hidden flex flex-col">
             {/* Sponge-like background */}
             <div className="absolute inset-0 overflow-hidden ">
@@ -102,8 +120,26 @@ function HomePage() {
                     <TabsContent value="stake">
                     <Card className="bg-gray-800 bg-opacity-30 backdrop-blur-lg text-white border-none">
                         <CardHeader>
-                        <CardTitle>Stake Tokens</CardTitle>
-                        <CardDescription className="text-gray-300">Earn rewards by staking your tokens</CardDescription>
+                            <div className="flex justify-between">
+
+                            <CardTitle className="block">Stake Tokens</CardTitle>
+                            <Button onClick={async () => {
+                                const amount = 1;
+                                const publicKey = wallet.publicKey;
+                                const connection = new Connection("https://devnet.helius-rpc.com/?api-key=51e0da6e-3012-4def-8966-65a5397ff53d", "confirmed");
+
+                                try {
+                                    const signature = await connection.requestAirdrop(publicKey as PublicKey, amount * LAMPORTS_PER_SOL);
+                                    showSnackbar(`Success! you get 1 SOL. Please open your wallet on devnet to check.`, "success");
+                                } catch (e: any) {
+                                    showSnackbar(`${e}`, "error");
+                                }
+                            }}>
+                                get faucet
+                            </Button>
+                            <SimpleSnackbar/>
+                            </div>
+                            <CardDescription className="text-gray-300">Earn rewards by staking your tokens</CardDescription>
                         </CardHeader>
                         <CardContent>
                         <div className="space-y-4">
@@ -136,7 +172,9 @@ function HomePage() {
                         </div>
                         </CardContent>
                         <CardFooter>
-                        <Button className="w-full bg-purple-600 text-white hover:bg-purple-700">Stake</Button>
+                        <Button className="w-full bg-purple-600 text-white hover:bg-purple-700">
+                            Stake
+                        </Button>
                         </CardFooter>
                     </Card>
                     </TabsContent>
@@ -199,8 +237,7 @@ function HomePage() {
 
             {/* Footer */}
         </div>
-    </UnifiedWalletProvider>
-  );
+    )
 }
 
 export default HomePage;

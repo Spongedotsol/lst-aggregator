@@ -6,7 +6,7 @@ const Homepage = dynamic(() => import("@/components/home"), { ssr: false });
 export const metadata: Metadata = {
   title: "Sponge",
   description: "Stake SOL, Get Exposure from Bluechips",
-  icons: 'favicon.ico'
+  icons: 'favicon.ico',
 }
 
 async function DappInterface () {
