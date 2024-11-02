@@ -17,8 +17,9 @@ export const getProgram = (connection: Connection, wallet: AnchorWallet) => {
   const provider = new AnchorProvider(connection, wallet, {
     commitment: "confirmed",
   });
+  anchor.setProvider(provider);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const program: Program<Vault> = new Program(IDL as any, provider);
+  const program: Program<Vault> = new Program(IDL as any, "HoU7uBBQf1eqX2StdnCdgA7wuDZB3kyxU1EgpZ6aqPKF", provider);
 
   return { program, provider: provider };
 };
@@ -47,7 +48,7 @@ export const getVault = async (connection: Connection, wallet: AnchorWallet) => 
   return { vaultStatePDA, vaultPDA, userStatePDA };
 };
 
-export const stake = async (connection: Connection, wallet: AncherWallet, amount: number): Promise<Transaction> => {
+export const stake = async (connection: Connection, wallet: AnchorWallet, amount: number): Promise<Transaction> => {
     const { program, provider } = getProgram(connection, wallet);
     const { vaultStatePDA, vaultPDA, userStatePDA } = await getVault(connection, wallet);
     
@@ -55,7 +56,7 @@ export const stake = async (connection: Connection, wallet: AncherWallet, amount
       .stake(new BN(amount * LAMPORTS_PER_SOL))
       .accounts({
         vaultState: vaultStatePDA,
-        vault: vaultPDA as any,
+        vault: vaultPDA,
         userState: userStatePDA,
         user: provider.wallet.publicKey,
         systemProgram: anchor.web3.SystemProgram.programId,
