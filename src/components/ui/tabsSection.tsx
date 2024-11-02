@@ -6,7 +6,6 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { ArrowRightLeft, Wallet, BarChart3 } from "lucide-react";
 import JupiterClient from "./../jupiter/JupiterClient";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useWallet, useAnchorWallet, AnchorWallet } from '@solana/wallet-adapter-react';
 import useSnackbarStore from '@/state/useSnackbarStore';
 import { stake } from '@/lib/program';
