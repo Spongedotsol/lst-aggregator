@@ -107,15 +107,15 @@ const TabsSection = ({ stakeAmount, setStakeAmount, onFaucetClick }: TabsSection
 const StakeForm = ({ stakeAmount, setStakeAmount }: { stakeAmount: string, setStakeAmount: (amount: string) => void }) => (
     <div className="space-y-4">
         <div className="space-y-2">
-            <Label htmlFor="stake-token" className="text-white">Token to Stake</Label>
-            <Select>
+            <Label htmlFor="stake-token" className="text-white">SOL</Label>
+            {/* <Select>
                 <SelectTrigger id="stake-token" className="bg-gray-700 bg-opacity-50 border-none text-white">
                     <SelectValue placeholder="Select token" />
                 </SelectTrigger>
                 <SelectContent className="bg-gray-700 text-white">
                     <SelectItem value="sol">SOL</SelectItem>
                 </SelectContent>
-            </Select>
+            </Select> */}
         </div>
         <div className="space-y-2">
             <Label htmlFor="stake-amount" className="text-white">Amount to Stake</Label>
