@@ -5,7 +5,7 @@ import { init } from "@jup-ag/terminal";
 
 export default function JupiterClient() {
   const wallet = useWallet();
-  const endpoint = process.env.NEXT_PUBLIC_RPC_ENDPOINT || "https://api.mainnet-beta.solana.com";
+  const endpoint = process.env.NEXT_PUBLIC_RPC_ENDPOINT || "https://api.devnet.solana.com";
 
   useEffect(() => {
     if (typeof window !== "undefined" && typeof document !== "undefined") {

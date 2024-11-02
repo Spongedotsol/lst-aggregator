@@ -1,26 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "@jup-ag/terminal/css";
 import { PhantomWalletAdapter, SolflareWalletAdapter } from "@solana/wallet-adapter-wallets"; // 加入 Backpack 錢包
 import { Connection, PublicKey, LAMPORTS_PER_SOL } from '@solana/web3.js';
 
 import { BackpackWalletAdapter } from "@solana/wallet-adapter-backpack";
 import { MagicEdenWalletAdapter } from "@solana/wallet-adapter-magiceden";
-import { UnifiedWalletProvider, useWallet } from '@jup-ag/wallet-adapter';
+import { UnifiedWalletProvider } from '@jup-ag/wallet-adapter';
 import Image from 'next/image';
+import { useWallet, useAnchorWallet } from "@solana/wallet-adapter-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowRightLeft, Wallet, BarChart3, Twitter } from "lucide-react";
+import { ArrowRightLeft, Wallet as IconWallet, BarChart3, Twitter } from "lucide-react";
 import JupiterClient from "./jupiter/JupiterClient";
 import icon from './ui/icon.png';
 import { UnifiedWalletButton } from "@jup-ag/wallet-adapter";
 import useSnackbarStore from "@/state/useSnackbarStore";
 import SimpleSnackbar from './ui/toast';
+import { stake } from "@/lib/program";
 
 interface SpongeBubbleProps {
   color: string;
@@ -50,10 +52,10 @@ function HomePage() {
             autoConnect: true,
             env: 'devnet',
             metadata: {
-            name: 'UnifiedWallet',
-            description: 'UnifiedWallet',
-            url: 'https://jup.ag',
-            iconUrls: ['https://jup.ag/favicon.ico'],
+                name: 'UnifiedWallet',
+                description: 'UnifiedWallet',
+                url: 'https://jup.ag',
+                iconUrls: ['https://jup.ag/favicon.ico'],
             },
             walletlistExplanation: {
                 href: 'https://station.jup.ag/docs/additional-topics/wallet-list',
@@ -69,11 +71,8 @@ function HomePage() {
 const HomeApp = () => {
     const [stakeAmount, setStakeAmount] = useState("");
     const { showSnackbar } = useSnackbarStore();
-
-    const wallet = useWallet();
-    useEffect(() => {
-        console.log(wallet);
-    }, [wallet]);
+    const { sendTransaction } = useWallet();
+    const wallet = useAnchorWallet();
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-purple-900 to-blue-900 p-4 relative overflow-hidden flex flex-col">
@@ -102,7 +101,7 @@ const HomeApp = () => {
                         Swap
                     </TabsTrigger>
                     <TabsTrigger value="stake" className="flex items-center justify-center  bg-gray-800 bg-opacity-50 text-white data-[state=active]:bg-white data-[state=active]:text-purple-900">
-                        <Wallet className="mr-2 h-4 w-4" />
+                        <IconWallet className="mr-2 h-4 w-4" />
                         Stake
                     </TabsTrigger>
                     <TabsTrigger value="dashboard" className="flex items-center justify-center bg-gray-800 bg-opacity-50 text-white data-[state=active]:bg-white data-[state=active]:text-purple-900">
@@ -124,12 +123,15 @@ const HomeApp = () => {
 
                             <CardTitle className="block">Stake Tokens</CardTitle>
                             <Button onClick={async () => {
+                                if (!wallet) {
+                                    return;
+                                }
                                 const amount = 1;
                                 const publicKey = wallet.publicKey;
                                 const connection = new Connection("https://devnet.helius-rpc.com/?api-key=51e0da6e-3012-4def-8966-65a5397ff53d", "confirmed");
 
                                 try {
-                                    const signature = await connection.requestAirdrop(publicKey as PublicKey, amount * LAMPORTS_PER_SOL);
+                                    await connection.requestAirdrop(publicKey as PublicKey, amount * LAMPORTS_PER_SOL);
                                     showSnackbar(`Success! you get 1 SOL. Please open your wallet on devnet to check.`, "success");
                                 } catch (e: any) {
                                     showSnackbar(`${e}`, "error");
@@ -172,7 +174,25 @@ const HomeApp = () => {
                         </div>
                         </CardContent>
                         <CardFooter>
-                        <Button className="w-full bg-purple-600 text-white hover:bg-purple-700">
+                        <Button
+                            className="w-full bg-purple-600 text-white hover:bg-purple-700"
+                            onClick={async () => {
+                                if (!wallet) {
+                                    alert("gmgm");
+                                    return;
+                                }
+                                const connection = new Connection("https://devnet.helius-rpc.com/?api-key=51e0da6e-3012-4def-8966-65a5397ff53d", "confirmed");
+
+                                const tx = await stake(connection, wallet as any, parseFloat(stakeAmount));
+                                await sendTransaction(tx, connection)
+                                    .then((e: any) => {
+                                        showSnackbar(`your tx hash is ${e}`, "success");
+                                    })
+                                    .catch((e: any) => {
+                                        showSnackbar(`${e}`, "error");
+                                    })
+                            }}
+                        >
                             Stake
                         </Button>
                         </CardFooter>
