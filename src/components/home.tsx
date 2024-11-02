@@ -14,26 +14,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/ui/navbar";
+import SpongeBackground from "@/components/ui/sponge";
 import Footer from "@/components/ui/footer";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowRightLeft, Wallet, BarChart3 } from "lucide-react";
 import JupiterClient from "./jupiter/JupiterClient";
 import useSnackbarStore from "@/state/useSnackbarStore";
 import SimpleSnackbar from './ui/toast';
-
-interface SpongeBubbleProps {
-  color: string;
-  size: string;
-  top: number;
-  left: number;
-}
-
-const SpongeBubble = ({ color, size, top, left }: SpongeBubbleProps) => (
-  <div
-    className={`absolute rounded-full ${size} ${color} opacity-30 animate-float`}
-    style={{ top: `${top}%`, left: `${left}%` }}
-  />
-);
 
 function HomePage() {
 
@@ -76,14 +63,9 @@ const HomeApp = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-purple-900 to-blue-900 p-4 relative overflow-hidden flex flex-col">
-            {/* Sponge-like background */}
-            <div className="absolute inset-0 overflow-hidden ">
-                <SpongeBubble color="bg-yellow-600" size="w-24 h-24" top={10} left={5} />
-                <SpongeBubble color="bg-blue-600" size="w-32 h-32" top={30} left={80} />
-                <SpongeBubble color="bg-purple-600" size="w-40 h-40" top={60} left={20} />
-                <SpongeBubble color="bg-pink-600" size="w-28 h-28" top={80} left={70} />
-                <SpongeBubble color="bg-orange-600" size="w-36 h-36" top={40} left={40} />
-            </div>
+
+            <SpongeBackground />
+
             <div className="container mx-auto p-4 max-w-4xl relative z-10 flex-grow">
                 <Navbar />
 
