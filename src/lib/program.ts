@@ -8,12 +8,12 @@ import {
   Connection,
   Transaction,
 } from "@solana/web3.js";
-
+import { AnchorWallet } from "@solana/wallet-adapter-react";
 import { Vault, IDL } from "@/program/vault";
 
 const authorityPublicKey = "spngKTnGPcTAauuFR7mEzYBXhCbsAsWdTUghLra91B4";
 
-export const getProgram = (connection: Connection, wallet: anchor.Wallet) => {
+export const getProgram = (connection: Connection, wallet: AnchorWallet) => {
   const provider = new AnchorProvider(connection, wallet, {
     commitment: "confirmed",
   });
@@ -23,7 +23,7 @@ export const getProgram = (connection: Connection, wallet: anchor.Wallet) => {
   return { program, provider: provider };
 };
 
-export const getVault = async (connection: Connection, wallet: anchor.Wallet) => {
+export const getVault = async (connection: Connection, wallet: AnchorWallet) => {
   const { program, provider } = getProgram(connection, wallet);
 
   const publicKey = new PublicKey(authorityPublicKey);
@@ -47,7 +47,7 @@ export const getVault = async (connection: Connection, wallet: anchor.Wallet) =>
   return { vaultStatePDA, vaultPDA, userStatePDA };
 };
 
-export const stake = async (connection: Connection, wallet: anchor.Wallet, amount: number): Promise<Transaction> => {
+export const stake = async (connection: Connection, wallet: AncherWallet, amount: number): Promise<Transaction> => {
     const { program, provider } = getProgram(connection, wallet);
     const { vaultStatePDA, vaultPDA, userStatePDA } = await getVault(connection, wallet);
     
@@ -61,11 +61,9 @@ export const stake = async (connection: Connection, wallet: anchor.Wallet, amoun
         systemProgram: anchor.web3.SystemProgram.programId,
       })
       .transaction();
-    //   .then(confirm as any)
-    //   .then(log as any);
 }
 
-export const unstake = async (connection: Connection, wallet: anchor.Wallet, amount: number) => {
+export const unstake = async (connection: Connection, wallet: AnchorWallet, amount: number) => {
     const { program, provider } = getProgram(connection, wallet);
     const { vaultStatePDA, vaultPDA, userStatePDA } = await getVault(connection, wallet);
     
@@ -79,8 +77,4 @@ export const unstake = async (connection: Connection, wallet: anchor.Wallet, amo
         systemProgram: anchor.web3.SystemProgram.programId,
       })
       .transaction();
-    //   .signers([provider.wallet.payer])
-    //   .rpc()
-    //   .then(confirm)
-    //   .then(log);
 }
