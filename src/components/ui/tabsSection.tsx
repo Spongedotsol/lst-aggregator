@@ -10,6 +10,7 @@ import { useWallet, useAnchorWallet, AnchorWallet } from '@solana/wallet-adapter
 import useSnackbarStore from '@/state/useSnackbarStore';
 import { stake } from '@/lib/program';
 import { Connection } from '@solana/web3.js';
+import useLoadingStore from '@/state/useLoadingStore';
 interface TabsSectionProps {
     stakeAmount: string;
     setStakeAmount: (amount: string) => void;
@@ -19,6 +20,7 @@ interface TabsSectionProps {
 const TabsSection = ({ stakeAmount, setStakeAmount, onFaucetClick }: TabsSectionProps) => {
     const { showSnackbar } = useSnackbarStore();
     const { sendTransaction } = useWallet();
+    const { setLoading } = useLoadingStore();
     const wallet = useAnchorWallet();
 
     return (
@@ -62,8 +64,10 @@ const TabsSection = ({ stakeAmount, setStakeAmount, onFaucetClick }: TabsSection
                         <Button
                             className="w-full bg-purple-600 text-white hover:bg-purple-700"
                             onClick={async () => {
+                                setLoading(true);
                                 if (!wallet) {
-                                    alert("gmgm");
+                                    showSnackbar(`Please connect wallet first!`, "error");
+                                    setLoading(false);
                                     return;
                                 }
                                 const connection = new Connection("https://devnet.helius-rpc.com/?api-key=51e0da6e-3012-4def-8966-65a5397ff53d", "confirmed");
@@ -75,6 +79,9 @@ const TabsSection = ({ stakeAmount, setStakeAmount, onFaucetClick }: TabsSection
                                     })
                                     .catch((e: unknown) => {
                                         showSnackbar(`${e}`, "error");
+                                    })
+                                    .finally(() => {
+                                        setLoading(false);
                                     })
                             }}
                         >
@@ -90,12 +97,17 @@ const TabsSection = ({ stakeAmount, setStakeAmount, onFaucetClick }: TabsSection
                         <CardTitle>Your Dashboard</CardTitle>
                         <CardDescription>Overview of your staking and rewards</CardDescription>
                     </CardHeader>
-                    <CardContent>
+                    <div className='flex min-h-[300px] justify-center items-center'>
+                        <span className='text-3xl text-gray-500'>
+                            Coming Soon!
+                        </span>
+                    </div>
+                    {/* <CardContent>
                         <DashboardContent />
                     </CardContent>
                     <CardFooter>
                         <Button className="w-full bg-purple-600 text-white hover:bg-purple-700">Claim Rewards</Button>
-                    </CardFooter>
+                    </CardFooter> */}
                 </Card>
             </TabsContent>
         </Tabs>
@@ -129,30 +141,30 @@ const StakeForm = ({ stakeAmount, setStakeAmount }: { stakeAmount: string, setSt
         </div>
         <div className="space-y-2">
             <Label className="text-white">Estimated APY</Label>
-            <p className="text-2xl font-bold text-purple-300">5.2%</p>
+            <p className="text-2xl font-bold text-purple-300">8%</p>
         </div>
     </div>
 );
 
-const DashboardContent = () => (
-    <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
-            <CardContentItem title="Total Staked" value="$1,234.56" />
-            <CardContentItem title="Total Rewards" value="$98.76" />
-        </div>
-        <CardContentItem title="Staked Assets" value="10 SOL" />
-    </div>
-);
+// const DashboardContent = () => (
+//     <div className="space-y-4">
+//         <div className="grid grid-cols-2 gap-4">
+//             <CardContentItem title="Total Staked" value="$1,234.56" />
+//             <CardContentItem title="Total Rewards" value="$98.76" />
+//         </div>
+//         <CardContentItem title="Staked Assets" value="10 SOL" />
+//     </div>
+// );
 
-const CardContentItem = ({ title, value }: { title: string, value: string }) => (
-    <Card className="bg-gray-700 bg-opacity-50 border-none">
-        <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">{title}</CardTitle>
-        </CardHeader>
-        <CardContent>
-            <p className="text-2xl font-bold text-purple-300">{value}</p>
-        </CardContent>
-    </Card>
-);
+// const CardContentItem = ({ title, value }: { title: string, value: string }) => (
+//     <Card className="bg-gray-700 bg-opacity-50 border-none">
+//         <CardHeader className="pb-2">
+//             <CardTitle className="text-sm font-medium">{title}</CardTitle>
+//         </CardHeader>
+//         <CardContent>
+//             <p className="text-2xl font-bold text-purple-300">{value}</p>
+//         </CardContent>
+//     </Card>
+// );
 
 export default TabsSection;
