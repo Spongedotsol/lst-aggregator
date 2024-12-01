@@ -1,8 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { SessionProvider } from "next-auth/react";
+import {
+    ConnectionProvider,
+    WalletProvider,
+} from "@solana/wallet-adapter-react";
+import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import "@jup-ag/terminal/css";
 import { PhantomWalletAdapter, SolflareWalletAdapter } from "@solana/wallet-adapter-wallets"; // 加入 Backpack 錢包
+import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
+import { clusterApiUrl } from "@solana/web3.js";
+import type { AppProps } from "next/app";
 import { Connection, PublicKey, LAMPORTS_PER_SOL } from '@solana/web3.js';
 import { BackpackWalletAdapter } from "@solana/wallet-adapter-backpack";
 import { MagicEdenWalletAdapter } from "@solana/wallet-adapter-magiceden";
@@ -15,36 +24,55 @@ import useSnackbarStore from "@/state/useSnackbarStore";
 import SimpleSnackbar from './ui/toast';
 import LoadingSpinner from './ui/LoadingSpinner';
 import useLoadingStore from "@/state/useLoadingStore";
+import Layout from "../components/ui/layout";
 
-function HomePage() {
+function HomePage({ pageProps }: AppProps) {
 
-  return (
-    <UnifiedWalletProvider
-        wallets={[
+    const network = WalletAdapterNetwork.Devnet;
+    const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+
+    const wallets = useMemo(
+        () => [
             new PhantomWalletAdapter(),
             new SolflareWalletAdapter(),
             new BackpackWalletAdapter(),
-            new MagicEdenWalletAdapter()
-        ]}
-        config={{
-            autoConnect: true,
-            env: 'devnet',
-            metadata: {
-                name: 'UnifiedWallet',
-                description: 'UnifiedWallet',
-                url: 'https://jup.ag',
-                iconUrls: ['https://jup.ag/favicon.ico'],
-            },
-            walletlistExplanation: {
-                href: 'https://station.jup.ag/docs/additional-topics/wallet-list',
-            },
-            theme: "dark"
-        }}
-    >
-        <HomeApp/>
-    </UnifiedWalletProvider>
-  );
+            new MagicEdenWalletAdapter(),
+        ],
+        []
+    );
+
+    return (
+    <ConnectionProvider endpoint={endpoint}>
+        <WalletProvider wallets={wallets} autoConnect>
+        <WalletModalProvider>
+            <SessionProvider session={pageProps?.session} refetchInterval={0}>
+            <UnifiedWalletProvider
+                wallets={wallets}
+                config={{
+                autoConnect: true,
+                env: "devnet",
+                metadata: {
+                    name: "UnifiedWallet",
+                    description: "UnifiedWallet",
+                    url: "https://jup.ag",
+                    iconUrls: ["https://jup.ag/favicon.ico"],
+                },
+                walletlistExplanation: {
+                    href:
+                    "https://station.jup.ag/docs/additional-topics/wallet-list",
+                },
+                theme: "dark",
+                }}
+            >
+                <HomeApp />
+            </UnifiedWalletProvider>
+            </SessionProvider>
+        </WalletModalProvider>
+        </WalletProvider>
+    </ConnectionProvider>
+    );
 }
+
 
 const HomeApp = () => {
     const [stakeAmount, setStakeAmount] = useState("");
@@ -81,12 +109,14 @@ const HomeApp = () => {
 
             <SpongeBackground />
             {isLoading && <LoadingSpinner />}
+            <Layout>
             <div className="container mx-auto p-4 max-w-4xl relative z-10 flex-grow">
                 <Navbar />
                 <TabsSection stakeAmount={stakeAmount} setStakeAmount={setStakeAmount} onFaucetClick={handleFaucetClick} />
                 <Footer />
                 <SimpleSnackbar />
             </div>
+            </Layout>
         </div>
     )
 }
