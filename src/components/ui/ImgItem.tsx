@@ -3,7 +3,7 @@ const ImageItem = (props: {img: string}) => {
     return (
         <>
         {
-            props.img === "SOON Testnet" &&
+            props.img === "SOON Devnet" &&
             (
                 <svg width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="16" cy="16.5" r="16" fill="#D52E4C"></circle>

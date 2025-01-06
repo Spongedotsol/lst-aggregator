@@ -28,30 +28,28 @@ const Navbar = () => {
                 <Image src={icon} alt="Sponge Logo" className="w-16 h-16" width={50} height={50} />
                 <span className="text-white text-xl font-bold">Sponge</span>
             </div>
-            <div className="flex justify-center items-center gap-1">
-                <div className="relative">
-                    <button
-                        onClick={() => setIsOpen(!isOpen)}
-                        className="flex items-center justify-between p-2 border rounded"
-                    >
-                        {network} <ChevronDown />
-                    </button>
-                    {isOpen && (
-                        <ul className="absolute z-10 mt-1 w-full bg-transparent border rounded shadow-lg">
-                        {networks.map((net: { name: string }) => (
-                            <li
-                                key={net.name}
-                                onClick={() => handleNetworkChange(net)}
-                                className="flex p-2 hover:bg-gray-200 hover:text-black cursor-pointer"
-                            >
-                                {net.name}
-                            </li>
-                        ))}
-                        </ul>
-                    )}
-                </div>
-                <UnifiedWalletButton />
+            <div className="relative">
+                <button
+                    onClick={() => setIsOpen(!isOpen)}
+                    className="flex items-center justify-between p-2 border rounded"
+                >
+                    {network} <ChevronDown />
+                </button>
+                {isOpen && (
+                    <ul className="absolute z-10 mt-1 w-full bg-transparent border rounded shadow-lg">
+                    {networks.map((net: { name: string }) => (
+                        <li
+                            key={net.name}
+                            onClick={() => handleNetworkChange(net)}
+                            className="p-2 hover:bg-gray-200 hover:text-black cursor-pointer"
+                        >
+                            {net.name}
+                        </li>
+                    ))}
+                    </ul>
+                )}
             </div>
+            <UnifiedWalletButton />
         </div>
     )
 };
