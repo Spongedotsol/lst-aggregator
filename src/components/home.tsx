@@ -92,7 +92,7 @@ const HomeApp = () => {
             return;
         }
 
-        const connection = new Connection("https://devnet.helius-rpc.com/?api-key=51e0da6e-3012-4def-8966-65a5397ff53d", "confirmed");
+        const connection = new Connection("https://niki-c1qc77-fast-devnet.helius-rpc.com", "confirmed");
 
         try {
             await connection.requestAirdrop(publicKey as PublicKey, amount * LAMPORTS_PER_SOL);
